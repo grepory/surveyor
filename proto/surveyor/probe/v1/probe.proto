@@ -1,0 +1,49 @@
+syntax = "proto3";
+package surveyor.probe.v1;
+
+option go_package = "surveyor/sdk/go/gen/probev1";
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+
+enum CollectStatus {
+  COLLECT_STATUS_SUCCESS = 0;
+  COLLECT_STATUS_ERROR   = 1;
+}
+
+message ProbeMetadata {
+  string id                 = 1;
+  string version            = 2;
+  string evidence_type      = 3;
+  string config_sha         = 4;
+  bool   supports_streaming = 5;
+}
+
+message CollectRequest {
+  string                    probe_id           = 1;
+  google.protobuf.Struct    config             = 2;
+  google.protobuf.Timestamp scheduled_at       = 3;
+  string                    collection_trigger = 4;
+}
+
+message Envelope {
+  ProbeMetadata             probe              = 1;
+  string                    host               = 2;
+  string                    ip_address         = 3;
+  string                    platform           = 4;
+  google.protobuf.Timestamp collected_at       = 5;
+  string                    content_type       = 6;
+  bytes                     payload            = 7;
+  string                    collection_trigger = 8;
+  CollectStatus             status             = 9;
+  string                    error_detail       = 10;
+}
+
+message CollectResponse  { Envelope envelope = 1; }
+message MetadataRequest  {}
+
+service ProbeService {
+  rpc Collect(CollectRequest)       returns (CollectResponse);
+  rpc CollectStream(CollectRequest) returns (stream CollectResponse);
+  rpc Metadata(MetadataRequest)     returns (ProbeMetadata);
+}

@@ -1,0 +1,1 @@
+- [No git commands](feedback_no_git.md) — User handles all git operations, do not run git add/commit/push

@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(protoc --version)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(go install:*)",
+      "Bash(export PATH=\"$HOME/go/bin:$PATH\")",
+      "Bash(protoc --proto_path=proto --go_out=sdk/go/gen/probev1 --go_opt=module=surveyor/sdk/go/gen/probev1 --go-grpc_out=sdk/go/gen/probev1 --go-grpc_opt=module=surveyor/sdk/go/gen/probev1 surveyor/probe/v1/probe.proto)",
+      "Bash(go get:*)",
+      "Bash(go mod:*)",
+      "Bash(go build:*)",
+      "Bash(go test:*)"
+    ]
+  }
+}
